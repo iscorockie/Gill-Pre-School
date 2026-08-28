@@ -340,8 +340,8 @@ details.box .inner li::before{content:"—";position:absolute;left:0;color:var(-
 .lb .x{top:20px;right:20px}.lb .p{left:20px;top:50%;transform:translateY(-50%)}.lb .n{right:20px;top:50%;transform:translateY(-50%)}
 
 /* ---------- contact ---------- */
-.ccards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;position:relative;z-index:1}
-@media(max-width:900px){.ccards{grid-template-columns:1fr}}
+.contact-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;position:relative;z-index:1}
+@media(max-width:760px){.contact-cards{grid-template-columns:1fr}}
 .cc{background:#fff;border-radius:18px;box-shadow:var(--shadow-s);padding:2rem 1.6rem;text-align:center;transition:.3s;position:relative;overflow:hidden}
 .cc:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
 .cc .ic{width:58px;height:58px;margin:0 auto 1rem;border-radius:18px;background:linear-gradient(140deg,var(--maroon),var(--deep));display:grid;place-items:center;transform:rotate(-6deg);transition:.3s}
@@ -387,6 +387,7 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap
 <li><a href="#about">About</a></li>
 <li><a href="#day">Our Day</a></li>
 <li><a href="#gallery">Gallery</a></li>
+<li><a href="#calendar">Dates</a></li>
 <li><a href="#parents">Parents</a></li>
 <li><a href="#contact">Contact</a></li>
 <li><a class="btn" style="padding:.6rem 1.3rem;font-size:.8rem" href="https://wa.me/256755071456" target="_blank" rel="noopener">Apply Now</a></li>
@@ -496,18 +497,31 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap
   <figure id="lbfig"><img src="" alt=""><figcaption></figcaption></figure>
 </div>
 
-<section class="sec" id="parents" style="background:#fff">
-  <div class="wm">Parents</div>
+<section class="sec" id="calendar" style="background:#fff">
+  <div class="wm">Dates</div>
   <div class="wrap">
-    <div class="head center rv">
-      <span class="kicker" style="color:var(--maroon)">Kind Words</span>
-      <h2>What our parents say</h2>
+    <div class="head rv">
+      <span class="kicker" style="color:var(--maroon)">Important Dates</span>
+      <h2>This term at GIPS</h2>
+      <p>Term dates, visitation mornings, celebrations and holidays &mdash; colour&#8209;coded by category. Click any highlighted date for details.</p>
     </div>
-    <div class="grid cols-3">
-      <div class="testimonial rv"><p>Our family has been with Gill Pre&#8209;School for 3 years, and we&rsquo;re thrilled to continue with the International School. The transition has been seamless.</p><div class="who"><span class="av">SK</span><div><b>Mrs. Sarah Katamba</b><span>Pre&#8209;School parent, now Year 1</span></div></div></div>
-      <div class="testimonial rv"><p>We chose Gill because of their proven track record with the pre&#8209;school. The facilities, qualified teachers and curriculum make it the perfect choice.</p><div class="who"><span class="av">JO</span><div><b>Mr. James Okello</b><span>Parent, Reception</span></div></div></div>
-      <div class="testimonial rv"><p>The Gill family of schools has always maintained high standards. Moving from pre&#8209;school to the International School was a natural choice.</p><div class="who"><span class="av">PN</span><div><b>Mrs. Patricia Namubiru</b><span>Pre&#8209;School parent, now Year 2</span></div></div></div>
+    <div class="events">
+      <div class="cal rv l" id="cal">
+        <div class="cal-h"><button id="cprev" aria-label="Previous month">&#8592;</button><h3 id="ctitle"></h3><button id="cnext" aria-label="Next month">&#8594;</button></div>
+        <div class="cal-g" id="cgrid"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="elist rv r" id="elist"></div>
     </div>
+  </div>
+</section>
+
+<section class="quotes sec" id="parents">
+  <div class="wrap qbox rv">
+    <span class="qm">&ldquo;</span>
+    <blockquote id="qtext"></blockquote>
+    <div class="who" id="qwho"></div>
+    <div class="qdots" id="qdots"></div>
   </div>
 </section>
 
@@ -549,6 +563,7 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap
       <div class="soc">
         <a href="https://www.facebook.com/profile.php?id=100088235048719" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1.1.3-1.5 1.6-1.5H16.8V2.2C16.2 2.1 15 2 13.8 2 10.9 2 9 3.7 9 6.9V10H6v4h3v8h4z"/></svg></a>
         <a href="https://www.instagram.com/gillinterschool/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3 .01 4.1.06 3 .14 4.7 1.8 4.84 4.84.05 1.06.06 1.36.06 4.1s-.01 3-.06 4.1c-.14 3-1.8 4.7-4.84 4.84-1.06.05-1.36.06-4.1.06s-3-.01-4.1-.06c-3-.14-4.7-1.8-4.84-4.84C3.01 15 3 14.7 3 12s.01-3 .06-4.1C3.2 4.9 4.86 3.2 7.9 3.06 9 3.01 9.3 3 12 3zm0 4.6a5.4 5.4 0 1 0 0 10.8 5.4 5.4 0 0 0 0-10.8zm0 2a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8zm5.6-3.2a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z"/></svg></a>
+        <a href="https://www.tiktok.com/@gillpreschool" target="_blank" rel="noopener" aria-label="TikTok — @gillpreschool"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
         <a href="https://x.com/Gillpre_schools" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1 16.2h1.7L7.3 4.7H5.5l11.3 14.5z"/></svg></a>
         <a href="https://wa.me/256755071456" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.1 14.9l-.5-.3-2.5.7.7-2.4-.3-.5A8 8 0 0 1 12 4z"/></svg></a>
       </div>
@@ -639,6 +654,78 @@ if(lb){var lbfig=document.getElementById("lbfig"),gitems=[],gi=0;
  lb.querySelector(".lb-next").addEventListener("click",function(e){e.stopPropagation();show(gi+1)});
  lb.addEventListener("click",function(e){if(e.target===lb)close()});
  addEventListener("keydown",function(e){if(!lb.classList.contains("open"))return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")show(gi-1);if(e.key==="ArrowRight")show(gi+1)});}
+/* ---- parent voices slider (same as main site) ---- */
+var QUOTES=[
+ ["Our family has been with Gill Pre-School for 3 years, and we're thrilled to continue with the International School. The transition has been seamless and the Cambridge curriculum is exactly what we wanted for our daughter.","Mrs. Sarah Katamba","Pre-School Parent, Now Year 1"],
+ ["We chose Gill because of their proven track record with the pre-school. The facilities, qualified teachers, and international curriculum make it the perfect choice for our son's education.","Mr. James Okello","Parent, Reception"],
+ ["The Gill family of schools has always maintained high standards. Moving from their pre-school to the International School was a natural choice. We're excited about the Cambridge curriculum and global opportunities.","Mrs. Patricia Namubiru","Pre-School Parent, Now Year 2"]
+];
+var qdotsEl=document.getElementById("qdots");
+if(qdotsEl){var qi=0,qtext=document.getElementById("qtext"),qwho=document.getElementById("qwho");
+ QUOTES.forEach(function(_,i){var b=document.createElement("button");b.addEventListener("click",function(){qi=i;showQ()});qdotsEl.appendChild(b)});
+ function showQ(){qtext.style.opacity=0;setTimeout(function(){
+   qtext.textContent="“"+QUOTES[qi][0]+"”";
+   qwho.innerHTML=QUOTES[qi][1]+"<span>"+QUOTES[qi][2]+"</span>";
+   Array.prototype.slice.call(qdotsEl.children).forEach(function(b,i){b.classList.toggle("on",i===qi)});
+   qtext.style.opacity=1},250)}
+ showQ();setInterval(function(){qi=(qi+1)%QUOTES.length;showQ()},6000);}
+/* ---- important dates calendar ---- */
+var CAT={
+ academic:{c:"#8C2429",l:"Term & Academic"},
+ visitation:{c:"#4C6FBF",l:"Visitation & Open Days"},
+ sports:{c:"#2F7D46",l:"Sports & Play"},
+ arts:{c:"#C9A24B",l:"Arts & Celebrations"},
+ holiday:{c:"#B7791F",l:"Holidays & Breaks"}
+};
+var EVENTS=[
+ ["2026-08-29","","Open Day & Campus Tours","9:00 AM – 1:00 PM · Main Hall","visitation"],
+ ["2026-09-01","","Term I Begins — All Children","7:30 AM · Najjera Campus","academic"],
+ ["2026-09-04","","Coffee Morning — Meet & Greet","8:30 AM · Dining Hall","visitation"],
+ ["2026-09-12","","Parents' Orientation Breakfast","8:30 AM · Dining Hall","academic"],
+ ["2026-09-25","","Early Years Family Picnic","10:00 AM · School Gardens","visitation"],
+ ["2026-10-09","","Independence Day","Ugandan Public Holiday","holiday"],
+ ["2026-10-16","","Little Stars Dress-Up Day","All day · classrooms","arts"],
+ ["2026-10-26","2026-10-30","Mid-Term Break","No lessons · school closed","holiday"],
+ ["2026-11-13","","Mini Sports & Games Day","9:00 AM · Sports Grounds","sports"],
+ ["2026-11-20","","Arts & Craft Evening","4:00 PM · Classrooms","arts"],
+ ["2026-12-04","","Carols & Prize Day","2:00 PM · Assembly Hall","arts"],
+ ["2026-12-18","","Term I Ends","12:00 PM · reports go home","academic"],
+ ["2026-12-25","","Christmas Day","Ugandan Public Holiday","holiday"]
+];
+var calEl=document.getElementById("cal");
+if(calEl){
+ var view=new Date(2026,7,1),today=new Date();
+ function isoOf(y,m,d){return y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0")}
+ function evsFor(iso){return EVENTS.filter(function(e){var s=e[0],en=e[1]||e[0];return iso>=s&&iso<=en})}
+ function drawCal(){
+  var y=view.getFullYear(),m=view.getMonth();
+  document.getElementById("ctitle").textContent=view.toLocaleString("en-GB",{month:"long",year:"numeric"});
+  var first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),h="";
+  ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(function(d){h+='<div class="dow">'+d+"</div>"});
+  for(var i=0;i<first;i++)h+='<div class="d mut"></div>';
+  for(var d=1;d<=days;d++){
+    var iso=isoOf(y,m,d),ev=evsFor(iso),cls="d",st="";
+    if(today.getFullYear()===y&&today.getMonth()===m&&today.getDate()===d)cls+=" today";
+    if(ev.length){cls+=" ev";st=' style="background:'+CAT[ev[0][4]].c+'" title="'+ev.map(function(e){return e[2]}).join(" • ")+'"'}
+    h+='<div class="'+cls+'" data-iso="'+iso+'"'+st+">"+d+"</div>";
+  }
+  document.getElementById("cgrid").innerHTML=h;
+  Array.prototype.slice.call(document.querySelectorAll("#cgrid .ev")).forEach(function(c){c.addEventListener("click",function(){drawList(evsFor(c.getAttribute("data-iso")))})});
+  document.getElementById("legend").innerHTML=Object.keys(CAT).map(function(k){return '<span><i style="background:'+CAT[k].c+'"></i>'+CAT[k].l+"</span>"}).join("");
+ }
+ function drawList(list){
+  var tIso=isoOf(today.getFullYear(),today.getMonth(),today.getDate());
+  var src=list||EVENTS.filter(function(e){return (e[1]||e[0])>=tIso});
+  document.getElementById("elist").innerHTML=src.map(function(e){
+    var d=new Date(e[0]+"T00:00:00");var range="";
+    if(e[1]){var de=new Date(e[1]+"T00:00:00");range=" &rarr; "+de.getDate()+" "+de.toLocaleString("en-GB",{month:"short"})}
+    return '<div class="eitem"><div class="d" style="background:linear-gradient(160deg,'+CAT[e[4]].c+',rgba(20,5,7,.55)"><b>'+d.getDate()+"</b><span>"+d.toLocaleString("en-GB",{month:"short"})+'</span></div><div><h4>'+e[2]+'<span class="ecat" style="background:'+CAT[e[4]].c+'">'+CAT[e[4]].l+"</span></h4><p>"+e[3]+range+"</p></div></div>";
+  }).join("");
+ }
+ document.getElementById("cprev").addEventListener("click",function(){view=new Date(view.getFullYear(),view.getMonth()-1,1);drawCal()});
+ document.getElementById("cnext").addEventListener("click",function(){view=new Date(view.getFullYear(),view.getMonth()+1,1);drawCal()});
+ drawCal();drawList();
+}
 })();
 </script>
 </body>
