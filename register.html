@@ -36,6 +36,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem
 nav.scrolled{background:rgba(42,9,12,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:8px 0;box-shadow:0 8px 30px rgba(0,0,0,.25)}
 .brand{display:flex;align-items:center;gap:.65rem}
 .brand img{height:50px;border-radius:10px;background:#fff;padding:4px 8px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+nav .brand,nav .burger{position:relative;z-index:2}
 .nav-links{display:flex;align-items:center;gap:.15rem;list-style:none}
 .nav-links a{font-family:var(--fd);font-weight:600;font-size:.83rem;color:#F4E7E8;padding:.5rem .7rem;border-radius:8px;position:relative}
 .nav-links a::after{content:"";position:absolute;left:.7rem;right:.7rem;bottom:2px;height:2px;background:var(--peri-2);transform:scaleX(0);transform-origin:left;transition:.3s}
@@ -193,9 +194,6 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg
 .form-ok p{color:var(--muted);font-size:.93rem;max-width:400px;margin:0 auto .9rem}
 .form-ok code{background:var(--peri-l);color:var(--maroon);padding:.35rem .9rem;border-radius:10px;font-weight:700;font-size:1.02rem;letter-spacing:.06em;display:inline-block}
 .form-ok .cta-row{justify-content:center;margin:1.4rem 0 0}
-.form-alert{display:none;background:#FDECEA;border:1px solid #F5C6C0;color:#8C2318;border-radius:12px;padding:.85rem 1.05rem;font-size:.86rem;margin-bottom:1.2rem;line-height:1.5}
-.form-alert.show{display:block}
-.form-alert a{font-weight:700;color:#8C2318}
 
 /* ---------- gallery strip ---------- */
 .gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:1rem;position:relative;z-index:1}
@@ -314,7 +312,6 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap
 
       <div class="rv r">
         <div class="form-card" id="acctCard">
-          <div class="form-alert" id="cardAlert" role="alert"></div>
           <form id="regForm" novalidate>
             <h3>Create Account</h3>
             <p class="sub">Fill in your details to get started with your application.</p>
@@ -504,12 +501,10 @@ function refCode(school){
  return (school==="preschool"?"GIPS":"GIS")+"-2026-"+c;
 }
 function setBad(id,bad){document.getElementById(id).classList.toggle("bad",!!bad)}
-function cardAlert(html){var a=document.getElementById("cardAlert");a.innerHTML=html;a.classList.toggle("show",!!html)}
 
 var form=document.getElementById("regForm");
 form.addEventListener("submit",function(e){
  e.preventDefault();
- cardAlert("");
  var name=document.getElementById("name").value.trim(),
      phone=document.getElementById("phone").value.trim(),
      email=document.getElementById("email").value.trim().toLowerCase(),
