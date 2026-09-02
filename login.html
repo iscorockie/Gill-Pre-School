@@ -439,6 +439,7 @@ $$(".pw button").forEach(function(b){
 var STORE="gill_portal_accounts";
 function loadAccounts(){try{return JSON.parse(localStorage.getItem(STORE))||{}}catch(e){return{}}}
 function setBad(id,bad){document.getElementById(id).classList.toggle("bad",!!bad)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function cardAlert(html){var a=document.getElementById("cardAlert");a.innerHTML=html;a.classList.toggle("show",!!html)}
 
 var form=document.getElementById("loginForm");
@@ -466,7 +467,7 @@ form.addEventListener("submit",function(e){
  document.getElementById("acctCard").innerHTML=
   '<div class="form-ok">'+
    '<div class="tick"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></div>'+
-   '<h3>Karibu back, '+first+'!</h3>'+
+   '<h3>Karibu back, '+esc(first)+'!</h3>'+
    '<p>You&rsquo;re signed in to the parent portal. Keep your reference handy when you speak with admissions:</p>'+
    '<code>'+acc.ref+'</code>'+
    '<p style="margin-top:.9rem">Your application is with our admissions team &mdash; we&rsquo;ll be in touch within one working day. (Demo mode: your full dashboard is on the way.)</p>'+
