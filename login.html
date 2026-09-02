@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — Gill International School</title>
+<meta name="description" content="Sign in to the Gill International School parent portal — continue your child's application, track every step of enrolment and stay close to the Gill family.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ================= GIS v2 — parent portal (login) ================= */
+:root{
+  --maroon:#8C2429; --maroon-2:#6E1B20; --deep:#3B0D10; --deep-2:#2A090C;
+  --peri:#C9D4F2; --peri-2:#A9BBEA; --peri-l:#EDF1FC;
+  --ink:#1E222A; --muted:#5D6673; --line:#E5E8F0; --bg:#F7F8FB; --white:#fff;
+  --shadow:0 18px 50px rgba(30,20,22,.14); --shadow-s:0 6px 22px rgba(30,20,22,.10);
+  --fd:"Sora","Segoe UI",Arial,sans-serif; --fb:"Inter","Segoe UI",Arial,sans-serif;
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{font-family:var(--fb);color:var(--ink);background:var(--bg);line-height:1.68;font-size:16.5px;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--maroon);text-decoration:none}
+h1,h2,h3,h4{font-family:var(--fd);line-height:1.14;letter-spacing:-.015em}
+::selection{background:var(--maroon);color:#fff}
+.wrap{width:min(1180px,92%);margin:0 auto}
+section{position:relative}
+
+/* ---------- progress + nav ---------- */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--peri-2),var(--maroon));z-index:99}
+nav{position:fixed;top:0;left:0;right:0;z-index:90;transition:.35s;padding:14px 0}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+nav.scrolled{background:rgba(42,9,12,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:8px 0;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:.65rem}
+.brand img{height:50px;border-radius:10px;background:#fff;padding:4px 8px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.nav-links{display:flex;align-items:center;gap:.15rem;list-style:none}
+.nav-links a{font-family:var(--fd);font-weight:600;font-size:.83rem;color:#F4E7E8;padding:.5rem .7rem;border-radius:8px;position:relative}
+.nav-links a::after{content:"";position:absolute;left:.7rem;right:.7rem;bottom:2px;height:2px;background:var(--peri-2);transform:scaleX(0);transform-origin:left;transition:.3s}
+.nav-links a:hover::after,.nav-links a.on::after{transform:scaleX(1)}
+.nav-links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--fd);font-weight:700;font-size:.92rem;letter-spacing:.01em;padding:.9rem 1.7rem;border-radius:999px;border:0;cursor:pointer;position:relative;overflow:hidden;transition:.3s;color:#fff;background:linear-gradient(120deg,var(--maroon),var(--maroon-2));box-shadow:0 10px 26px rgba(110,27,32,.35)}
+.btn::before{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:.5s}
+.btn:hover::before{left:130%}
+.btn:hover{transform:translateY(-2px)}
+.btn.lt{background:#fff;color:var(--maroon);box-shadow:0 10px 26px rgba(0,0,0,.25)}
+.btn.gh{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+.btn.gh:hover{background:rgba(255,255,255,.12)}
+.btn.gd{background:transparent;color:var(--maroon);box-shadow:inset 0 0 0 2px var(--maroon)}
+.btn.gd:hover{background:var(--maroon);color:#fff}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:6px}
+.burger span{display:block;width:26px;height:2.5px;background:#fff;margin:5.5px 0;border-radius:2px;transition:.3s}
+body.nav-open .burger span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+body.nav-open .burger span:nth-child(2){opacity:0}
+body.nav-open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+@media(max-width:1060px){
+  .burger{display:block}
+  .nav-links{position:fixed;inset:0;background:linear-gradient(160deg,var(--deep),var(--deep-2));flex-direction:column;justify-content:center;gap:.4rem;transform:translateX(100%);transition:.4s;padding-top:60px}
+  body.nav-open .nav-links{transform:none}
+  .nav-links a{font-size:1.25rem;padding:.7rem}
+}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;overflow:hidden;position:relative}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;animation:kb 22s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.06)}to{transform:scale(1.15) translateY(-14px)}}
+.hero-veil{position:absolute;inset:0;background:radial-gradient(120% 95% at 50% 38%,rgba(42,9,12,.62) 0%,rgba(42,9,12,.87) 78%),linear-gradient(transparent 45%,rgba(24,5,7,.96) 100%)}
+.hero::before{content:"";position:absolute;inset:0;background:var(--noise);z-index:1}
+.shard{position:absolute;background:var(--peri);opacity:.12;filter:blur(1px)}
+.shard.s1{width:340px;height:240px;top:12%;right:-70px;clip-path:polygon(0 0,100% 12%,78% 100%,10% 70%);animation:drift 11s ease-in-out infinite alternate}
+.shard.s2{width:220px;height:170px;bottom:24%;left:-60px;clip-path:polygon(0 20%,80% 0,100% 80%,20% 100%);opacity:.09;animation:drift 13s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translateY(-14px) rotate(-2deg)}to{transform:translateY(16px) rotate(3deg)}}
+.hero-grid{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:170px 0 80px;flex:1}
+.hero .kicker{background:rgba(255,255,255,.09);border:1px solid rgba(201,212,242,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:.55rem 1.15rem;border-radius:999px;justify-content:center}
+.hero .kicker::before{width:26px}
+.hero h1{font-size:clamp(2.8rem,6.6vw,5.1rem);font-weight:800;margin:1.4rem 0 1.2rem;color:#fff;text-shadow:0 10px 50px rgba(0,0,0,.5);max-width:15ch}
+.hero p.lede{max-width:660px;margin:0 auto;color:#F2E6E7;font-size:1.13rem}
+.hero p.lede b{color:#fff}
+.kicker{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--fd);font-weight:600;font-size:.74rem;letter-spacing:.22em;color:var(--peri);text-transform:uppercase}
+.kicker::before{content:"";width:44px;height:2px;background:var(--peri-2)}
+.hero h1 em{font-style:italic;color:var(--peri-2);position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;background:var(--maroon);opacity:.9;border-radius:4px;z-index:-1}
+.cta-row{display:flex;gap:.9rem;flex-wrap:wrap;margin:1.9rem 0 2.4rem}
+.hero .cta-row{justify-content:center}
+.hstat b{font-family:var(--fd);font-size:1.9rem;font-weight:800;color:var(--peri-2);display:block;line-height:1}
+.hstat span{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#D9BFC0}
+.statbar{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(22,5,7,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.16)}
+.statbar .hstat{padding:1.5rem 1rem;text-align:center;border-left:1px solid rgba(255,255,255,.12)}
+.statbar .hstat:first-child{border-left:0}
+@media(max-width:960px){.hero-grid{padding:140px 0 70px}.statbar{grid-template-columns:repeat(2,1fr)}.statbar .hstat:nth-child(3){border-left:0}}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--maroon);overflow:hidden;padding:.95rem 0;border-top:1px solid rgba(255,255,255,.12)}
+.marquee .track{display:flex;gap:3rem;width:max-content;animation:mq 26s linear infinite;font-family:var(--fd);font-weight:700;font-size:.92rem;letter-spacing:.24em;color:var(--peri);text-transform:uppercase;white-space:nowrap}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- generic section chrome ---------- */
+.sec{padding:100px 0}
+.wm{position:absolute;top:34px;left:0;right:0;text-align:center;font-family:var(--fd);font-weight:800;font-size:clamp(4rem,13vw,10rem);letter-spacing:.04em;color:transparent;-webkit-text-stroke:1px rgba(140,36,41,.10);pointer-events:none;user-select:none;text-transform:uppercase;line-height:1}
+.sec.dark .wm{-webkit-text-stroke:1px rgba(201,212,242,.14)}
+.head{max-width:760px;margin-bottom:52px;position:relative;z-index:1}
+.head.center{margin-left:auto;margin-right:auto;text-align:center}
+.head h2{font-size:clamp(1.9rem,3.8vw,2.8rem);font-weight:800;margin:.7rem 0 .9rem}
+.head p{color:var(--muted);font-size:1.05rem}
+.sec.dark .head p{color:#D9BFC0}
+.head .kicker{color:var(--maroon)}
+.head .kicker::before{background:var(--maroon)}
+.sec.dark .head .kicker{color:var(--peri-2)}
+.sec.dark .head .kicker::before{background:var(--peri-2)}
+.head.center .kicker{justify-content:center}
+.head.center .kicker::before{display:none}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1)}
+.rv.l{transform:translateX(-36px)}
+.rv.r{transform:translateX(36px)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.marquee .track,.hero-bg{animation:none}}
+
+/* ---------- portal (dark) ---------- */
+.portal{background:radial-gradient(900px 500px at 90% 0%,rgba(201,212,242,.12),transparent 60%),linear-gradient(160deg,var(--deep) 0%,var(--maroon-2) 100%);color:#fff;overflow:hidden}
+.portal::before{content:"";position:absolute;inset:0;background:var(--noise)}
+.portal .head h2{color:#fff}
+.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.4rem;position:relative;z-index:1;align-items:start}
+@media(max-width:960px){.adm-grid{grid-template-columns:1fr}}
+.steps{display:grid;gap:1.05rem}
+.step{display:grid;grid-template-columns:56px 1fr;gap:1.2rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:1.3rem 1.4rem;backdrop-filter:blur(4px);transition:.3s}
+.step:hover{background:rgba(255,255,255,.11);transform:translateX(8px)}
+.step .n{width:56px;height:56px;border-radius:16px;background:linear-gradient(140deg,var(--peri-2),var(--peri));color:var(--deep);font-family:var(--fd);font-weight:800;font-size:1.25rem;display:grid;place-items:center}
+.step h3{color:#fff;font-size:1.02rem;margin-bottom:.25rem}
+.step p{color:#E3CDCE;font-size:.92rem}
+.support{margin-top:1.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:1.35rem 1.5rem;backdrop-filter:blur(4px)}
+.support h4{color:#fff;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.85rem}
+.support a{display:flex;align-items:center;gap:.55rem;color:var(--peri);font-family:var(--fd);font-weight:600;font-size:.95rem;margin-bottom:.5rem}
+.support a:hover{color:#fff}
+.support a svg{width:16px;height:16px;fill:var(--peri-2);flex:0 0 16px}
+.support span{color:#E3CDCE;font-size:.85rem}
+
+/* ---------- form card ---------- */
+.form-card{background:#fff;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.35);padding:2.3rem;color:var(--ink)}
+.form-card h3{font-size:1.3rem;margin-bottom:.4rem}
+.form-card .sub{color:var(--muted);font-size:.93rem;margin-bottom:1.5rem}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg .full{grid-column:1/-1}
+@media(max-width:560px){.fg{grid-template-columns:1fr}.form-card{padding:1.8rem 1.4rem}}
+.field label{display:block;font-family:var(--fd);font-weight:600;font-size:.78rem;letter-spacing:.04em;margin-bottom:.35rem}
+.field label i{color:var(--maroon);font-style:normal}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:.75rem .95rem;font:inherit;background:var(--bg);transition:.2s;color:var(--ink)}
+.field :is(input,select,textarea):focus{outline:none;border-color:var(--maroon);background:#fff;box-shadow:0 0 0 4px rgba(140,36,41,.12)}
+.field .err{display:none;color:#B3261E;font-size:.78rem;margin-top:.3rem}
+.field.bad input,.field.bad select,.field.bad textarea{border-color:#B3261E}
+.field.bad .err{display:block}
+/* password */
+.pw{position:relative}
+.pw input{padding-right:3.4rem}
+.pw button{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);font:600 .72rem var(--fd);letter-spacing:.05em;cursor:pointer;text-transform:uppercase}
+.pw button:hover{color:var(--maroon)}
+.forgot{display:block;text-align:right;font-size:.8rem;margin-top:-.3rem;margin-bottom:.6rem}
+.forgot a{font-weight:700}
+/* submit + privacy + demo */
+.form-card .btn{width:100%;justify-content:center;margin-top:.4rem}
+.alt-line{text-align:center;font-size:.86rem;color:var(--muted);margin-top:.9rem}
+.alt-line a{font-weight:700}
+.privacy{margin-top:1rem;text-align:center;font-size:.78rem;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:.4rem}
+.privacy svg{width:12px;height:12px;fill:var(--muted);flex:0 0 12px}
+.demo-note{margin-top:1.1rem;text-align:center;font-size:.78rem;color:#D9BFC0;background:rgba(255,255,255,.05);border:1px dashed rgba(201,212,242,.4);border-radius:12px;padding:.7rem 1rem;position:relative;z-index:1}
+.demo-note b{color:var(--peri-2)}
+/* success + alert */
+.form-ok{text-align:center;padding:1.6rem .5rem}
+.form-ok .tick{width:76px;height:76px;margin:0 auto 1.1rem;border-radius:50%;background:var(--peri-l);display:grid;place-items:center}
+.form-ok .tick svg{width:34px;height:34px;fill:var(--maroon)}
+.form-ok h3{font-size:1.25rem;margin-bottom:.5rem}
+.form-ok p{color:var(--muted);font-size:.93rem;max-width:420px;margin:0 auto .9rem}
+.form-ok code{background:var(--peri-l);color:var(--maroon);padding:.35rem .9rem;border-radius:10px;font-weight:700;font-size:1.02rem;letter-spacing:.06em;display:inline-block}
+.form-ok .cta-row{justify-content:center;margin:1.4rem 0 0}
+.form-alert{display:none;background:#FDECEA;border:1px solid #F5C6C0;color:#8C2318;border-radius:12px;padding:.85rem 1.05rem;font-size:.86rem;margin-bottom:1.2rem;line-height:1.5}
+.form-alert.show{display:block}
+.form-alert a{font-weight:700;color:#8C2318}
+
+/* ---------- gallery strip ---------- */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:1rem;position:relative;z-index:1}
+@media(max-width:980px){.gal{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.gal{grid-template-columns:1fr}.gi.w2{grid-column:span 1}}
+.gi{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--shadow-s)}
+.gi.w2{grid-column:span 2}.gi.h2{grid-row:span 2}
+.gi img{width:100%;height:100%;object-fit:cover;transition:.6s}
+.gi:hover img{transform:scale(1.07)}
+.gi .cap{position:absolute;inset:auto 0 0 0;padding:2rem 1rem .8rem;color:#fff;background:linear-gradient(transparent,rgba(30,8,10,.88));font-family:var(--fd);font-weight:600;font-size:.82rem;letter-spacing:.03em;transform:translateY(8px);opacity:.9;transition:.35s}
+.gi:hover .cap{transform:none;opacity:1}
+
+/* ---------- cta band ---------- */
+.cta-band{background:radial-gradient(900px 420px at 15% 130%,rgba(201,212,242,.14),transparent 60%),linear-gradient(140deg,var(--deep),var(--maroon-2));position:relative;overflow:hidden}
+.cta-band::before{content:"";position:absolute;inset:0;background:var(--noise)}
+.cta-band .inner{position:relative;z-index:1;padding:84px 0;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.cta-band h2{color:#fff;font-size:clamp(1.7rem,3.4vw,2.5rem);margin-bottom:.6rem}
+.cta-band p{color:#E8D5D6;max-width:560px;font-size:1.02rem}
+.cta-band .cta-row{margin:0}
+
+/* ---------- footer ---------- */
+footer{background:var(--deep-2);color:#CDB4B5;position:relative;overflow:hidden}
+footer::before{content:"";position:absolute;inset:0;background:var(--noise)}
+footer .top{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:2.4rem;padding:70px 0 46px;position:relative}
+@media(max-width:960px){footer .top{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){footer .top{grid-template-columns:1fr}}
+footer h4{color:#fff;font-size:.88rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.1rem}
+footer a{color:#CDB4B5}
+footer a:hover{color:var(--peri-2)}
+footer ul{list-style:none;display:grid;gap:.5rem;font-size:.93rem}
+footer .brandline img{height:58px;background:#fff;border-radius:12px;padding:6px 10px;margin-bottom:1.1rem}
+footer .tag{font-style:italic;color:var(--peri-2)}
+footer .soc{display:flex;gap:.6rem;margin-top:1.2rem}
+footer .soc a{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.08);display:grid;place-items:center;transition:.25s}
+footer .soc a:hover{background:var(--maroon);transform:translateY(-3px)}
+footer .soc svg{width:16px;height:16px;fill:#fff}
+footer .base{border-top:1px solid rgba(255,255,255,.1);padding:1.2rem 0;font-size:.84rem;position:relative}
+footer .base .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+#totop{position:fixed;right:22px;bottom:22px;width:52px;height:52px;border-radius:16px;border:0;background:linear-gradient(140deg,var(--maroon),var(--deep));color:#fff;font-size:1.2rem;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 14px 34px rgba(0,0,0,.3);z-index:80}
+#totop.show{opacity:1;pointer-events:auto}
+#totop:hover{transform:translateY(-4px)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="Gill International Pre-School — home"><img src="assets/logo.png" alt="Gill International Pre-School logo"></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#programs">Programs</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#day">Our Day</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a class="btn" style="padding:.6rem 1.3rem;font-size:.8rem" href="register.html">Create Account</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</div></nav>
+
+<main>
+<header class="hero">
+  <img class="hero-bg" src="assets/hero.jpg" alt="GIPS pre-school pupils in maroon uniforms at the school">
+  <div class="hero-veil"></div>
+  <div class="shard s1"></div><div class="shard s2"></div>
+  <div class="wrap hero-grid">
+    <span class="kicker">Parent Portal &middot; 2026/27 Now Enrolling</span>
+    <h1>Welcome <em>back</em></h1>
+    <p class="lede">Sign in to continue your child&rsquo;s application, track every step of enrolment and stay close to the <b>Gill family</b>.</p>
+    <div class="cta-row">
+      <a class="btn" href="#acct">Sign In to Your Portal &darr;</a>
+      <a class="btn gh" href="register.html">New Here? Create Account</a>
+    </div>
+  </div>
+  <div class="statbar">
+    <div class="hstat"><b data-count="2">0</b><span>Campuses &middot; one account</span></div>
+    <div class="hstat"><b data-count="1">0</b><span>Day admissions response</span></div>
+    <div class="hstat"><b>2026/27</b><span>Now enrolling</span></div>
+    <div class="hstat"><b>24/7</b><span>Portal access</span></div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="mq">
+  <span>Welcome Back</span><span>&#10022;</span><span>Track Your Application</span><span>&#10022;</span><span>One Account &middot; Both Campuses</span><span>&#10022;</span><span>Karibu</span><span>&#10022;</span><span>Stay Close to the Gill Family</span><span>&#10022;</span>
+</div></div>
+
+<!-- ============ sign in ============ -->
+<section class="sec portal" id="acct">
+  <div class="wm">Portal</div>
+  <div class="wrap">
+    <div class="head rv">
+      <span class="kicker">Parent Portal</span>
+      <h2>Your journey continues, in one place</h2>
+      <p>From your first call to your child&rsquo;s first day, your portal keeps every step of enrolment together.</p>
+    </div>
+    <div class="adm-grid">
+      <div class="rv l">
+        <div class="steps">
+          <div class="step"><div class="n">1</div><div><h3>Application status</h3><p>Track submitted, reviewed or offered &mdash; updated as it happens.</p></div></div>
+          <div class="step"><div class="n">2</div><div><h3>Your reference</h3><p>Quote your GIS reference any time you speak with admissions.</p></div></div>
+          <div class="step"><div class="n">3</div><div><h3>Direct support</h3><p>Call, WhatsApp or email &mdash; we respond within one working day.</p></div></div>
+          <div class="step"><div class="n">4</div><div><h3>Stay informed</h3><p>Keep up with your child&rsquo;s journey and the Gill community.</p></div></div>
+        </div>
+        <div class="support">
+          <h4>Talk to Admissions</h4>
+          <a href="mailto:info.gillschool@gmail.com?subject=Parent%20portal%20support"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>info.gillschool@gmail.com</a>
+          <a href="tel:+256755071456"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.3 0 .7-.2 1l-2.3 2.1z"/></svg>+256 755 071 456</a>
+          <a href="https://wa.me/256755071456" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.1 14.9l-.5-.3-2.5.7.7-2.4-.3-.5A8 8 0 0 1 12 4z"/></svg>Chat on WhatsApp</a>
+          <span>Mon&ndash;Fri 7:30&ndash;17:00 &middot; tours by appointment</span>
+        </div>
+      </div>
+
+      <div class="rv r">
+        <div class="form-card" id="acctCard">
+          <div class="form-alert" id="cardAlert" role="alert"></div>
+          <form id="loginForm" novalidate>
+            <h3>Sign In</h3>
+            <p class="sub">Sign in to your parent portal to continue your application or track your child&rsquo;s enrolment.</p>
+            <div class="fg">
+              <div class="field full" id="f-email">
+                <label for="email">Email <i>*</i></label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com">
+                <span class="err">Please enter a valid email.</span>
+              </div>
+              <div class="field full" id="f-pass">
+                <label for="pass">Password <i>*</i></label>
+                <div class="pw">
+                  <input type="password" id="pass" name="pass" autocomplete="current-password" placeholder="Your password">
+                  <button type="button" data-pw="pass">Show</button>
+                </div>
+                <span class="err">Please enter your password.</span>
+              </div>
+            </div>
+            <span class="forgot"><a href="mailto:info.gillschool@gmail.com?subject=Password%20reset%20-%20parent%20portal">Forgot password?</a> &mdash; email us and we&rsquo;ll reset it for you.</span>
+            <button class="btn" type="submit">Sign In &rarr;</button>
+            <p class="alt-line">New here? <a href="register.html">Create Account</a></p>
+            <p class="privacy"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 5a3 3 0 1 1 6 0v3H9V6zm3 7a2 2 0 0 1 1 3.7V19a1 1 0 1 1-2 0v-1.3A2 2 0 0 1 12 13z"/></svg>Your details are kept private and only used for admissions.</p>
+          </form>
+        </div>
+        <p class="demo-note">Demo mode &mdash; accounts are stored in this browser only. Connect Supabase in <b>/config.js</b> before launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ photos ============ -->
+<section class="sec" id="family" style="background:#fff">
+  <div class="wm">Gallery</div>
+  <div class="wrap">
+    <div class="head rv">
+      <span class="kicker">Gill Family</span>
+      <h2>Growing up at Gill</h2>
+      <p>From the first day to the big days &mdash; these are the moments your account helps you keep close.</p>
+    </div>
+    <div class="gal">
+      <div class="gi rv"><img src="assets/toddlers.jpg" alt="Two happy GIPS pupils holding hands" loading="lazy"><div class="cap">Best friends at GIPS</div></div>
+      <div class="gi rv"><img src="assets/daycare.jpg" alt="A pupil with a new notebook and bag" loading="lazy"><div class="cap">First day, big bag</div></div>
+      <div class="gi w2 rv"><img src="assets/hero.jpg" alt="GIPS pupils in maroon uniforms" loading="lazy"><div class="cap">Proud in their maroon uniforms</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ cta ============ -->
+<section class="cta-band">
+  <div class="wrap inner">
+    <div>
+      <h2>New to Gill International School?</h2>
+      <p>Create your parent account in minutes &mdash; start your child&rsquo;s application today: one form, one reference, one smooth journey into the Gill family.</p>
+    </div>
+    <div class="cta-row">
+      <a class="btn lt" href="register.html">Start Application &rarr;</a>
+      <a class="btn gh" href="index.html">Back to Home</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap top">
+    <div>
+      <div class="brandline"><img src="assets/logo.png" alt="Gill International Pre-School"></div>
+      <p>Inspiring little minds in Najjera, Kampala &mdash; Christ&#8209;centred early learning for ages 1&ndash;6, with a seamless path into Gill International School.</p>
+      <p class="tag" style="margin-top:.6rem">&ldquo;The first five years impact the next eighty.&rdquo;</p>
+      <div class="soc">
+        <a href="https://www.facebook.com/profile.php?id=100088235048719" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1.1.3-1.5 1.6-1.5H16.8V2.2C16.2 2.1 15 2 13.8 2 10.9 2 9 3.7 9 6.9V10H6v4h3v8h4z"/></svg></a>
+        <a href="https://www.instagram.com/gillinterschool/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3 .01 4.1.06 3 .14 4.7 1.8 4.84 4.84.05 1.06.06 1.36.06 4.1s-.01 3-.06 4.1c-.14 3-1.8 4.7-4.84 4.84-1.06.05-1.36.06-4.1.06s-3-.01-4.1-.06c-3-.14-4.7-1.8-4.84-4.84C3.01 15 3 14.7 3 12s.01-3 .06-4.1C3.2 4.9 4.86 3.2 7.9 3.06 9 3.01 9.3 3 12 2zm0 4.9a5.1 5.1 0 1 0 0 10.2 5.1 5.1 0 0 0 0-10.2zm0 2a3.1 3.1 0 1 1 0 6.2 3.1 3.1 0 0 1 0-6.2zm5.3-3.1a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
+        <a href="https://www.tiktok.com/@gillpreschool" target="_blank" rel="noopener" aria-label="TikTok — @gillpreschool"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+        <a href="https://x.com/Gillpre_schools" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1 16.2h1.7L7.3 4.7H5.5l11.3 14.5z"/></svg></a>
+        <a href="https://wa.me/256755071456" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.1 14.9l-.5-.3-2.5.7.7-2.4-.3-.5A8 8 0 0 1 12 4z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="index.html#programs">Programs</a></li>
+        <li><a href="index.html#about">About GIPS</a></li>
+        <li><a href="index.html#day">A Day at GIPS</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#parents">Parents&rsquo; Words</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>The Gill Family</h4>
+      <ul>
+        <li><a href="https://gill.ac.ug" target="_blank" rel="noopener">Gill International School &rarr;</a></li>
+        <li><a href="https://wa.me/256755071456" target="_blank" rel="noopener">Apply via WhatsApp</a></li>
+        <li><a href="tel:+256755071456">+256 755 071 456</a></li>
+        <li><a href="mailto:info.gillschool@gmail.com">info.gillschool@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="base">
+    <div class="wrap">
+      <span>&copy; <span data-year>2026</span> Gill International Pre&#8209;School (GIPS). All rights reserved.</span>
+      <span>Inspiring little minds &middot; Najjera, Kampala</span>
+    </div>
+  </div>
+</footer>
+<button id="totop" aria-label="Back to top">&uarr;</button>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+/* ---- shared chrome (same as main site) ---- */
+var nav=document.getElementById("nav"),burger=document.getElementById("burger");
+if(burger)burger.addEventListener("click",function(){nav.classList.toggle("open");document.body.classList.toggle("nav-open");burger.setAttribute("aria-expanded",document.body.classList.contains("nav-open"))});
+var nl=document.getElementById("navlinks");
+if(nl)nl.addEventListener("click",function(e){if(e.target.closest("a")){nav.classList.remove("open");document.body.classList.remove("nav-open")}});
+var prog=document.getElementById("progress"),totop=document.getElementById("totop");
+function onScroll(){var y=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;
+ if(prog)prog.style.width=(h?y/h*100:0)+"%";
+ if(nav)nav.classList.toggle("scrolled",y>40);
+ if(totop)totop.classList.toggle("show",y>700);}
+addEventListener("scroll",onScroll,{passive:true});onScroll();
+if(totop)totop.addEventListener("click",function(){scrollTo({top:0,behavior:"smooth"})});
+$$("[data-year]").forEach(function(el){el.textContent=new Date().getFullYear()});
+if("IntersectionObserver" in window){
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.14});
+ $$(".rv").forEach(function(el){io.observe(el)});
+ var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cio.unobserve(e.target);
+  var el=e.target,end=+el.getAttribute("data-count"),pre=el.getAttribute("data-prefix")||"",suf=el.getAttribute("data-suffix")||"",t0=null;
+  function tick(t){if(!t0)t0=t;var p=Math.min((t-t0)/1200,1);p=1-Math.pow(1-p,3);el.innerHTML=pre+Math.round(end*p)+suf;if(p<1)requestAnimationFrame(tick)}
+  requestAnimationFrame(tick);})},{threshold:.6});
+ $$("[data-count]").forEach(function(el){cio.observe(el)});
+}else{$$(".rv").forEach(function(el){el.classList.add("in")})}
+var mq=document.getElementById("mq");if(mq)mq.innerHTML+=mq.innerHTML;
+
+/* ---- password show/hide ---- */
+$$(".pw button").forEach(function(b){
+ b.addEventListener("click",function(){
+   var inp=document.getElementById(b.getAttribute("data-pw"));
+   var show=inp.type==="password";
+   inp.type=show?"text":"password";
+   b.textContent=show?"Hide":"Show";
+ });
+});
+
+/* ---- demo account store (browser only) ---- */
+var STORE="gill_portal_accounts";
+function loadAccounts(){try{return JSON.parse(localStorage.getItem(STORE))||{}}catch(e){return{}}}
+function setBad(id,bad){document.getElementById(id).classList.toggle("bad",!!bad)}
+function cardAlert(html){var a=document.getElementById("cardAlert");a.innerHTML=html;a.classList.toggle("show",!!html)}
+
+var form=document.getElementById("loginForm");
+form.addEventListener("submit",function(e){
+ e.preventDefault();
+ cardAlert("");
+ var email=document.getElementById("email").value.trim().toLowerCase(),
+     pass=document.getElementById("pass").value;
+ var ok=true;
+ var emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+ setBad("f-email",!emailOk); if(!emailOk)ok=false;
+ setBad("f-pass",!pass); if(!pass)ok=false;
+ if(!ok)return;
+
+ var accounts=loadAccounts(),acc=accounts[email];
+ if(!acc){
+   cardAlert("We couldn&rsquo;t find an account with that email on this device. In demo mode, accounts live only in the browser where they were created &mdash; <a href=\"register.html\">create your account</a> to get started.");
+   setBad("f-email",true);
+   return;
+ }
+ if(acc.pass!==pass){
+   cardAlert("That password doesn&rsquo;t match. Try again, or <a href=\"mailto:info.gillschool@gmail.com?subject=Password%20reset%20-%20parent%20portal\">email us</a> and we&rsquo;ll reset it for you.");
+   setBad("f-pass",true);
+   return;
+ }
+ var first=acc.name.split(/\s+/)[0];
+ document.getElementById("acctCard").innerHTML=
+  '<div class="form-ok">'+
+   '<div class="tick"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></div>'+
+   '<h3>Karibu back, '+first+'!</h3>'+
+   '<p>You&rsquo;re signed in to the parent portal. Keep your reference handy when you speak with admissions:</p>'+
+   '<code>'+acc.ref+'</code>'+
+   '<p style="margin-top:.9rem">Your application is with our admissions team &mdash; we&rsquo;ll be in touch within one working day. (Demo mode: your full dashboard is on the way.)</p>'+
+   '<div class="cta-row">'+
+     '<a class="btn" href="index.html">Back to Home</a>'+
+     '<a class="btn gd" href="https://wa.me/256755071456" target="_blank" rel="noopener">Chat on WhatsApp</a>'+
+   '</div>'+
+  '</div>';
+ document.getElementById("acctCard").scrollIntoView({behavior:"smooth",block:"center"});
+});
+$$("#loginForm .field").forEach(function(f){
+ f.addEventListener("input",function(){if(f.classList.contains("bad"))f.classList.remove("bad")});
+});
+})();
+</script>
+</body>
+</html>
